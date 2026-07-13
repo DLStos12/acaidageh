@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Açaí Top — monte seu açaí e envie o pedido pelo WhatsApp." />
+  <title>Açaí Top | Monte seu pedido</title>
+
+  <!-- Pré-conexão para acelerar o carregamento das fontes do Google. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Fontes utilizadas nos títulos e nos textos do site. -->
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- =====================================================
+       LOADER
+       Exibido enquanto os recursos iniciais da página carregam.
+  ====================================================== -->
+  <div id="loader" class="loader" aria-label="Carregando página">
+    <div class="loader__bowl">Açaí</div>
+    <p>Preparando seu açaí...</p>
+  </div>
+
+  <!-- =====================================================
+       CABEÇALHO E NAVEGAÇÃO
+       Inclui marca, menu responsivo e chamada para o pedido.
+  ====================================================== -->
+  <header class="header" id="inicio">
+    <div class="container nav">
+      <!-- Logo criada com texto para facilitar a personalização. -->
+      <a class="brand" href="#inicio" aria-label="Açaí Top - início">
+        <span class="brand__main">Açaí</span>
+        <span class="brand__top">TOP</span>
+      </a>
+
+      <!-- Botão visível em telas pequenas para abrir ou fechar o menu. -->
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+
+      <!-- Links de navegação por âncoras dentro da mesma página. -->
+      <nav class="menu" id="menu">
+        <a href="#inicio">Início</a>
+        <a href="#cardapio">Cardápio</a>
+        <a href="#monte">Monte o seu</a>
+        <a href="#contato">Contato</a>
+      </nav>
+
+      <!-- CTA exibido no cabeçalho somente em telas maiores. -->
+      <a class="btn btn--yellow nav__cta" href="#monte">Peça pelo WhatsApp</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- =====================================================
+         HERO / DESTAQUE PRINCIPAL
+         Apresenta a proposta da loja e direciona para o pedido.
+    ====================================================== -->
+    <section class="hero">
+      <div class="container hero__grid">
+        <div class="hero__content">
+          <span class="eyebrow">Açaí cremoso e fresquinho 💜</span>
+          <h1>O melhor <span>açaí da cidade!</span></h1>
+          <p>Escolha o tamanho, adicione seus ingredientes favoritos e envie o pedido prontinho para a loja.</p>
+
+          <div class="hero__benefits">
+            <span>🍃 100% natural</span>
+            <span>🥣 Ingredientes selecionados</span>
+            <span>⚡ Entrega rápida</span>
+          </div>
+
+          <a class="btn btn--yellow btn--large" href="#monte">Monte seu açaí agora</a>
+        </div>
+
+        <!-- Ilustração construída em CSS e emojis, sem depender de imagem externa. -->
+        <div class="hero__visual" aria-hidden="true">
+          <div class="fruit fruit--1">🍓</div>
+          <div class="fruit fruit--2">🍌</div>
+          <div class="fruit fruit--3">🥜</div>
+          <div class="bowl">
+            <div class="bowl__topping">🍓 🍌 🥜 </div>
+            <div class="bowl__cream"></div>
+            <div class="bowl__cup">
+              <span>Açaí</span>
+              <strong>TOP</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         CARDÁPIO
+         Os cartões são inseridos dinamicamente pelo JavaScript.
+    ====================================================== -->
+    <section class="section" id="cardapio">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow eyebrow--purple">Favoritos da casa</span>
+          <h2>Nosso cardápio</h2>
+          <p>Escolha uma sugestão pronta ou monte seu pedido do seu jeito.</p>
+        </div>
+
+        <!-- O script preenche este elemento com os produtos cadastrados. -->
+        <div class="products" id="productsGrid"></div>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         MONTADOR DO PEDIDO
+         Permite selecionar tamanho, ingredientes e dados do cliente.
+    ====================================================== -->
+    <section class="builder section" id="monte">
+      <div class="container builder__grid">
+        <div class="builder__form">
+          <div class="section-heading section-heading--left">
+            <span class="eyebrow">Pedido personalizado</span>
+            <h2>Monte seu açaí</h2>
+            <p>Selecione as opções abaixo. O total é atualizado automaticamente.</p>
+          </div>
+
+          <form id="orderForm">
+            <!-- Grupo de tamanhos preenchido pelo JavaScript. -->
+            <fieldset class="option-group">
+              <legend>1. Escolha o tamanho</legend>
+              <div class="size-options" id="sizeOptions"></div>
+            </fieldset>
+
+            <!-- Grupo de ingredientes preenchido pelo JavaScript. -->
+            <fieldset class="option-group">
+              <legend>2. Escolha os ingredientes</legend>
+              <p class="helper">Os ingredientes grátis e adicionais são identificados em cada opção.</p>
+              <div class="ingredient-options" id="ingredientOptions"></div>
+            </fieldset>
+
+            <!-- Dados básicos necessários para montar a mensagem final. -->
+            <div class="field-grid">
+              <label>
+                Seu nome
+                <input type="text" id="customerName" placeholder="Ex.: Maria" required />
+              </label>
+
+              <label>
+                Retirada ou entrega
+                <select id="deliveryType">
+                  <option value="Retirada na loja">Retirada na loja</option>
+                  <option value="Entrega">Entrega</option>
+                </select>
+              </label>
+            </div>
+
+            <label>
+              Observações
+              <textarea id="notes" rows="3" placeholder="Ex.: pouco leite condensado, sem colher..."></textarea>
+            </label>
+          </form>
+        </div>
+
+        <!-- =================================================
+             RESUMO DO PEDIDO
+             Atualizado automaticamente sempre que uma opção muda.
+        ================================================== -->
+        <aside class="summary" aria-live="polite">
+          <span class="summary__tag">Resumo do pedido</span>
+          <h3>Seu açaí</h3>
+
+          <div class="summary__line">
+            <span>Tamanho</span>
+            <strong id="summarySize">Selecione</strong>
+          </div>
+
+          <div class="summary__ingredients">
+            <span>Ingredientes</span>
+            <ul id="summaryIngredients">
+              <li>Nenhum selecionado</li>
+            </ul>
+          </div>
+
+          <!-- Valor do açaí que está sendo montado neste momento. -->
+          <div class="summary__total summary__total--current">
+            <span>Subtotal deste açaí</span>
+            <strong id="summaryTotal">R$ 0,00</strong>
+          </div>
+
+          <!-- Adiciona a configuração atual ao carrinho, permitindo criar outro açaí. -->
+          <button class="btn btn--yellow btn--large" id="addToOrder" type="button">
+            Adicionar este açaí ao pedido
+          </button>
+
+          <!-- Lista de todos os açaís já adicionados ao pedido. -->
+          <div class="cart" id="cartArea">
+            <div class="cart__heading">
+              <h3>Itens do pedido</h3>
+              <span id="cartCount">0 itens</span>
+            </div>
+
+            <div class="cart__items" id="cartItems">
+              <p class="cart__empty">Nenhum açaí adicionado ainda.</p>
+            </div>
+
+            <div class="cart__total">
+              <span>Total do pedido</span>
+              <strong id="cartTotal">R$ 0,00</strong>
+            </div>
+          </div>
+
+          <button class="btn btn--whatsapp btn--large" id="sendWhatsApp" type="button">
+            Enviar pedido pelo WhatsApp
+          </button>
+          <small>Adicione um ou mais açaís. Depois, envie o pedido completo para a loja.</small>
+        </aside>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         INFORMAÇÕES DA LOJA
+         Edite horário, endereço e texto de entrega diretamente aqui.
+    ====================================================== -->
+    <section class="info" id="contato">
+      <div class="container info__grid">
+        <article><span>🕒</span><div><strong>Horário</strong><p>Todos os dias, das 10h às 22h</p></div></article>
+        <article><span>📍</span><div><strong>Endereço</strong><p>Rua das Palmeiras, 123 — Centro</p></div></article>
+        <article><span>🛵</span><div><strong>Entrega rápida</strong><p>Consulte a taxa para seu bairro</p></div></article>
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================
+       RODAPÉ
+       O ano é preenchido automaticamente pelo JavaScript.
+  ====================================================== -->
+  <footer class="footer">
+    <div class="container">
+      <p>© <span id="currentYear"></span> Açaí Top. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Atalho flutuante que leva o usuário ao montador do pedido. -->
+  <a class="floating-whatsapp" href="#monte" aria-label="Montar pedido">☎</a>
+
+  <!-- Arquivo JavaScript separado, carregado após todo o HTML. -->
+  <script src="script.js"></script>
+</body>
+</html>
