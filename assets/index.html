@@ -32,7 +32,8 @@
     <div class="container nav">
       <!-- Logo criada com texto para facilitar a personalização. -->
       <a class="brand" href="#inicio" aria-label="Açaí Top - início">
-        <img src="./assets/img/lgo.png" alt="logo açai da geh">
+        <span class="brand__main">Açaí</span>
+        <span class="brand__top">TOP</span>
       </a>
 
       <!-- Botão visível em telas pequenas para abrir ou fechar o menu. -->
@@ -75,9 +76,16 @@
         <!-- Ilustração construída em CSS e emojis, sem depender de imagem externa. -->
         <div class="hero__visual" aria-hidden="true">
           <div class="fruit fruit--1">🍓</div>
-          <div class="fruit fruit--2">🥝</div>
+          <div class="fruit fruit--2">🍌</div>
           <div class="fruit fruit--3">🥜</div>
-          <img src="./assets/img/avatarSemFundo.png" alt="avatar da Geh">
+          <div class="bowl">
+            <div class="bowl__topping">🍓 🍌 🥜 </div>
+            <div class="bowl__cream"></div>
+            <div class="bowl__cup">
+              <span>Açaí</span>
+              <strong>TOP</strong>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -141,55 +149,6 @@
                 </select>
               </label>
             </div>
-
-            <!-- Esta área aparece apenas quando o cliente escolhe entrega. -->
-            <section class="delivery-address" id="deliveryAddress" hidden>
-              <div class="delivery-address__heading">
-                <div>
-                  <strong>Endereço para entrega</strong>
-                  <p>Preencha os campos abaixo para a loja localizar seu endereço.</p>
-                </div>
-                <span aria-hidden="true">🛵</span>
-              </div>
-
-              <div class="delivery-notice" role="note">
-                A taxa de entrega não está incluída no total. A loja confirmará o valor pelo WhatsApp antes de finalizar o pedido.
-              </div>
-
-              <div class="address-grid">
-                <label class="address-grid__street">
-                  Rua <span class="required-mark">*</span>
-                  <input type="text" id="street" placeholder="Ex.: Rua das Flores" autocomplete="address-line1" />
-                </label>
-
-                <label>
-                  Número <span class="required-mark">*</span>
-                  <input type="text" id="houseNumber" placeholder="Ex.: 123" inputmode="numeric" />
-                </label>
-
-                <label>
-                  Bairro <span class="required-mark">*</span>
-                  <input type="text" id="neighborhood" placeholder="Ex.: Centro" autocomplete="address-level3" />
-                </label>
-
-                <label>
-                  CEP <span class="required-mark">*</span>
-                  <input type="text" id="zipCode" placeholder="00000-000" inputmode="numeric" maxlength="9" autocomplete="postal-code" />
-                </label>
-
-                <label>
-                  Complemento
-                  <input type="text" id="addressComplement" placeholder="Ex.: Casa 2, bloco B" autocomplete="address-line2" />
-                </label>
-
-                <label>
-                  Ponto de referência
-                  <input type="text" id="referencePoint" placeholder="Ex.: Próximo à praça" />
-                </label>
-              </div>
-
-              <small class="required-help"><span class="required-mark">*</span> Campos obrigatórios para entrega.</small>
-            </section>
 
             <label>
               Observações
@@ -260,9 +219,8 @@
     ====================================================== -->
     <section class="info" id="contato">
       <div class="container info__grid">
-        <article><span>🕒</span><div><strong>Horário</strong><p>Segunda a Sábado, das 10h às 23h <br>
-        Domingo, das 11h às 18h</p></div></article>
-        <article><span>📍</span><div><strong>Endereço</strong><p>Rua Azaléia, 421 — Chácara Flórida</p></div></article>
+        <article><span>🕒</span><div><strong>Horário</strong><p>Todos os dias, das 10h às 22h</p></div></article>
+        <article><span>📍</span><div><strong>Endereço</strong><p>Rua das Palmeiras, 123 — Centro</p></div></article>
         <article><span>🛵</span><div><strong>Entrega rápida</strong><p>Consulte a taxa para seu bairro</p></div></article>
       </div>
     </section>
@@ -274,7 +232,7 @@
   ====================================================== -->
   <footer class="footer">
     <div class="container">
-      <p>© <span id="currentYear"></span> Açai da Geh. Todos os direitos reservados.</p>
+      <p>© <span id="currentYear"></span> Açaí Top. Todos os direitos reservados.</p>
     </div>
   </footer>
 

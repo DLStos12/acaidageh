@@ -4,7 +4,7 @@
 
 // Número que receberá os pedidos no WhatsApp.
 // Use o formato: DDI + DDD + número, sem espaços, traços ou parênteses.
-const STORE_WHATSAPP = "5511999999999";
+const STORE_WHATSAPP = "5512996611325";
 
 /* ======================================================
    DADOS DO CARDÁPIO
@@ -12,32 +12,32 @@ const STORE_WHATSAPP = "5511999999999";
 
 // Tamanhos disponíveis e seus respectivos preços-base.
 const sizes = [
-  { id: "300", name: "Açaí 300 ml", price: 14.9 },
-  { id: "500", name: "Açaí 500 ml", price: 18.9 },
-  { id: "700", name: "Açaí 700 ml", price: 23.9 }
+  { id: "300", name: "Açaí 300 ml", price: 12.0 },
+  { id: "500", name: "Açaí 500 ml", price: 15.0 },
+  { id: "700", name: "Açaí 700 ml", price: 18.0 }
 ];
 
 // Ingredientes que podem ser escolhidos pelo cliente.
 const ingredients = [
-  { id: "banana", name: "Banana", price: 0 },
-  { id: "morango", name: "Morango", price: 2.5 },
-  { id: "granola", name: "Granola", price: 0 },
-  { id: "pacoca", name: "Paçoca", price: 1.5 },
-  { id: "leite-po", name: "Leite em pó", price: 2 },
-  { id: "leite-condensado", name: "Leite condensado", price: 1.5 },
-  { id: "nutella", name: "Creme de avelã", price: 4 },
-  { id: "kiwi", name: "Kiwi", price: 3 },
-  { id: "confete", name: "Confete", price: 1.5 },
-  { id: "castanha", name: "Castanha", price: 2.5 }
+  { id: "leite-condensado", name: "Leite condensado", price: 3.5 },
+  { id: "leite-po", name: "Leite em pó", price: 3.5 },
+  { id: "chocoball", name: "Chocoball", price: 3.5 },
+  { id: "granola", name: "Granola", price: 3.5 },
+  { id: "confete", name: "Confete", price: 3.5 },
+  { id: "pacoca", name: "Paçoca", price: 4 },
+  { id: "bisBranco", name: "Bis Branco", price: 4 },
+  { id: "bisPreto", name: "Bis Preto", price: 4 },
+  { id: "ouroBranco", name: "Ouro Branco", price: 6 },
+  { id: "kitkat", name: "Kitkat", price: 6 },
 ];
 
 // Produtos prontos exibidos na seção “Nosso cardápio”.
-const products = [
-  { name: "Açaí Tradicional", description: "Açaí, banana e granola.", price: 14.9, emoji: "🥣" },
-  { name: "Açaí Especial", description: "Açaí, morango, banana e granola.", price: 18.9, emoji: "🍓" },
-  { name: "Açaí Power", description: "Açaí, leite em pó, paçoca e granola.", price: 19.9, emoji: "⚡" },
-  { name: "Açaí Premium", description: "Açaí, morango, kiwi, banana e creme de avelã.", price: 22.9, emoji: "👑" }
-];
+// const products = [
+//   { name: "Açaí Tradicional", description: "Açaí, banana e granola.", price: 14.9, emoji: "🥣" },
+//   { name: "Açaí Especial", description: "Açaí, morango, banana e granola.", price: 18.9, emoji: "🍓" },
+//   { name: "Açaí Power", description: "Açaí, leite em pó, paçoca e granola.", price: 19.9, emoji: "⚡" },
+//   { name: "Açaí Premium", description: "Açaí, morango, kiwi, banana e creme de avelã.", price: 22.9, emoji: "👑" }
+// ];
 
 /* ======================================================
    ESTADO DO CARRINHO
@@ -63,6 +63,14 @@ const cartItems = document.querySelector("#cartItems");
 const cartCount = document.querySelector("#cartCount");
 const cartTotal = document.querySelector("#cartTotal");
 const sendWhatsApp = document.querySelector("#sendWhatsApp");
+const deliveryTypeSelect = document.querySelector("#deliveryType");
+const deliveryAddress = document.querySelector("#deliveryAddress");
+const streetInput = document.querySelector("#street");
+const houseNumberInput = document.querySelector("#houseNumber");
+const neighborhoodInput = document.querySelector("#neighborhood");
+const zipCodeInput = document.querySelector("#zipCode");
+const addressComplementInput = document.querySelector("#addressComplement");
+const referencePointInput = document.querySelector("#referencePoint");
 
 /* ======================================================
    FUNÇÕES AUXILIARES
@@ -269,22 +277,75 @@ function resetBuilder() {
    ====================================================== */
 
 // Marca automaticamente os ingredientes do produto escolhido no cardápio.
-function choosePresetProduct(index) {
-  const presets = [
-    ["banana", "granola"],
-    ["morango", "banana", "granola"],
-    ["leite-po", "pacoca", "granola"],
-    ["morango", "kiwi", "banana", "nutella"]
+// function choosePresetProduct(index) {
+//   const presets = [
+//     ["banana", "granola"],
+//     ["morango", "banana", "granola"],
+//     ["leite-po", "pacoca", "granola"],
+//     ["morango", "kiwi", "banana", "nutella"]
+//   ];
+
+//   document.querySelector("#size-300").checked = true;
+
+//   document.querySelectorAll('.ingredient-card input').forEach(input => {
+//     input.checked = presets[index].includes(input.value);
+//   });
+
+//   updateSummary();
+//   document.querySelector("#monte").scrollIntoView({ behavior: "smooth" });
+// }
+
+/* ======================================================
+   ENTREGA E ENDEREÇO
+   ====================================================== */
+
+// Mostra ou esconde os campos de endereço de acordo com a opção escolhida.
+function updateDeliveryFields() {
+  const isDelivery = deliveryTypeSelect.value === "Entrega";
+
+  deliveryAddress.hidden = !isDelivery;
+
+  // O atributo required ativa também a validação nativa do navegador.
+  [streetInput, houseNumberInput, neighborhoodInput, zipCodeInput].forEach(input => {
+    input.required = isDelivery;
+  });
+}
+
+// Aplica a máscara brasileira de CEP enquanto o cliente digita.
+function formatZipCode() {
+  const digits = zipCodeInput.value.replace(/\D/g, "").slice(0, 8);
+  zipCodeInput.value = digits.length > 5
+    ? `${digits.slice(0, 5)}-${digits.slice(5)}`
+    : digits;
+}
+
+// Confere os dados obrigatórios quando a opção escolhida é entrega.
+function validateDeliveryAddress() {
+  if (deliveryTypeSelect.value !== "Entrega") return true;
+
+  const requiredFields = [
+    { input: streetInput, message: "Informe a rua para entrega." },
+    { input: neighborhoodInput, message: "Informe o bairro para entrega." },
+    { input: houseNumberInput, message: "Informe o número do endereço." },
+    { input: zipCodeInput, message: "Informe o CEP para entrega." }
   ];
 
-  document.querySelector("#size-300").checked = true;
+  for (const field of requiredFields) {
+    if (!field.input.value.trim()) {
+      alert(field.message);
+      field.input.focus();
+      return false;
+    }
+  }
 
-  document.querySelectorAll('.ingredient-card input').forEach(input => {
-    input.checked = presets[index].includes(input.value);
-  });
+  const zipDigits = zipCodeInput.value.replace(/\D/g, "");
+  if (zipDigits.length !== 8) {
+    alert("Informe um CEP válido com 8 números.");
+    zipCodeInput.focus();
+    return false;
+  }
 
-  updateSummary();
-  document.querySelector("#monte").scrollIntoView({ behavior: "smooth" });
+  return true;
 }
 
 /* ======================================================
@@ -295,7 +356,7 @@ function choosePresetProduct(index) {
 function buildWhatsAppMessage() {
   const nameInput = document.querySelector("#customerName");
   const name = nameInput.value.trim();
-  const deliveryType = document.querySelector("#deliveryType").value;
+  const deliveryType = deliveryTypeSelect.value;
   const notes = document.querySelector("#notes").value.trim();
 
   if (!name) {
@@ -310,6 +371,8 @@ function buildWhatsAppMessage() {
     return null;
   }
 
+  if (!validateDeliveryAddress()) return null;
+
   const itemsText = cart.map((item, index) => {
     const ingredientsText = item.ingredients.length
       ? item.ingredients.map(ingredient => `• ${ingredient.name}${ingredient.price ? ` (+${money(ingredient.price)})` : ""}`).join("\n")
@@ -322,17 +385,36 @@ function buildWhatsAppMessage() {
     ].join("\n");
   }).join("\n\n");
 
+  const addressText = deliveryType === "Entrega"
+    ? [
+        "",
+        "*Endereço de entrega:*",
+        `*Rua:* ${streetInput.value.trim()}`,
+        `*Número:* ${houseNumberInput.value.trim()}`,
+        `*Bairro:* ${neighborhoodInput.value.trim()}`,
+        `*CEP:* ${zipCodeInput.value.trim()}`,
+        addressComplementInput.value.trim() ? `*Complemento:* ${addressComplementInput.value.trim()}` : "",
+        referencePointInput.value.trim() ? `*Ponto de referência:* ${referencePointInput.value.trim()}` : ""
+      ].filter(Boolean).join("\n")
+    : "";
+
   return [
     "Olá! Gostaria de fazer um pedido 💜",
     "",
     `*Cliente:* ${name}`,
     `*Tipo:* ${deliveryType}`,
+    addressText,
     "",
     "*Itens do pedido:*",
     itemsText,
     notes ? `\n*Observações:* ${notes}` : "",
     "",
-    `*TOTAL DO PEDIDO: ${money(getCartTotal())}*`
+    `*TOTAL DOS PRODUTOS: ${money(getCartTotal())}*`,
+    deliveryType === "Entrega"
+      ? "⚠️ *A taxa de entrega será calculada e informada pela loja antes da confirmação do pedido.*"
+      : "",
+    "",
+    "Aguardo a confirmação do pedido. Obrigado!"
   ].filter(Boolean).join("\n");
 }
 
@@ -375,7 +457,7 @@ function init() {
 
   renderSizes();
   renderIngredients();
-  renderProducts();
+  // renderProducts();
   renderCart();
   updateSummary();
   setupMenu();
@@ -394,6 +476,11 @@ function init() {
     const itemId = Number(removeButton.dataset.removeItem);
     removeCartItem(itemId);
   });
+
+  // Mostra os campos de endereço apenas quando a opção for entrega.
+  deliveryTypeSelect.addEventListener("change", updateDeliveryFields);
+  zipCodeInput.addEventListener("input", formatZipCode);
+  updateDeliveryFields();
 
   // Envia o pedido completo para o WhatsApp.
   sendWhatsApp.addEventListener("click", sendOrder);
